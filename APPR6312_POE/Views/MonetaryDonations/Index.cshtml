@@ -3,16 +3,14 @@
 @{
     ViewData["Title"] = "Index";
 
-    decimal totalMonetary;
+    //decimal total;
+    //var sum = Decimal.Parse(ViewBag.Sum);
+    //var varMone = Decimal.Parse(ViewBag.MonetarySum);
 
-    if(Model != null)
-    {
-        totalMonetary = Model.Sum(x => x.amount);
-    }
-    else
-    {
-        totalMonetary = 0;
-    }
+    //if(sum != null || varMone != null)
+    //{
+    //    total = sum - varMone;
+    //}
 }
 <style>
 
@@ -50,7 +48,7 @@
     <br />
     <h1>Monetary Donations</h1>
 
-    <h2>Total amount donated: R @totalMonetary</h2>
+    <h2>Total amount donated: R @ViewBag.MonetarySum</h2>
 
     <p float:right>
         <form asp-action="Create">

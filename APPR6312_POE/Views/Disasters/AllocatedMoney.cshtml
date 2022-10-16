@@ -1,18 +1,14 @@
 ﻿@model APPR6312_POE.Models.Disasters
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "AllocatedMoney";
 }
 
-<h1>Edit</h1>
+<h1>Allocate Money to chosen disaster</h1>
 
-<h4>Disasters</h4>
-<hr />
 <div class="row">
     <div id="div_form" class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="AllocatedMoney">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="disasterID" />
             <div class="form-group">
                 <label asp-for="Start_Date" class="control-label"></label>
                 <input asp-for="Start_Date" class="form-control" />
@@ -30,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,19 +34,20 @@
                 <input asp-for="aid" class="form-control" />
                 <span asp-validation-for="aid" class="text-danger"></span>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="allocatedMoney" class="control-label"></label>
                 <input asp-for="allocatedMoney" class="form-control" />
                 <span asp-validation-for="allocatedMoney" class="text-danger"></span>
             </div>
+
+            <br />
+            <center>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" asp-action="Index" value="Back" class="btn btn-primary" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
             </div>
+            </center>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

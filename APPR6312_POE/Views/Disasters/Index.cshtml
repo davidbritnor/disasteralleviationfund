@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    //var varMone = Decimal.Parse(ViewBag.MonetarySum);
 }
 <style>
     table {
@@ -30,7 +32,7 @@
 <center>
     <br />
     <h1>Disasters</h1>
-
+    <h2> Total Allocated: R @ViewBag.Sum </h2>
     <p float:right>
         <form asp-action="Create">
             <button type="submit" asp-action="Create" value="" class="btn btn-primary">Submit a disaster</button>
@@ -63,6 +65,11 @@
             <th>
                 <center>
                     @Html.DisplayNameFor(model => model.aid)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.allocatedMoney)
                 </center>
             </th>
             <th>
@@ -124,12 +131,22 @@
                 </td>
                 <td>
                     <center>
+                        @Html.DisplayFor(modelItem => item.allocatedMoney)
+                    </center>
+                </td>
+                <td>
+                    <center>
                         <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.disasterID">Details </a>
                     </center>
                 </td>
                 <td>
                     <center>
-                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Money </a>
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Money</a>
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Goods</a>
                     </center>
                 </td>
             </tr>

@@ -83,6 +83,7 @@ namespace APPR6312_POE.Controllers
             if (obj != null)
             {
                 
+                //ViewBag.Sum = HttpContext.Session.GetString("Sum");
                 HttpContext.Session.SetString("Email", email);
                 ViewBag.email = HttpContext.Session.GetString("Email");
                 HttpContext.Session.SetString("FirstName", obj.FirstName);

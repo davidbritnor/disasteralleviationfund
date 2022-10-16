@@ -20,7 +20,13 @@ namespace APPR6312_POE.Controllers
 
         // GET: Disasters
         public async Task<IActionResult> Index()
-        {
+        {           
+            var sum = _context.Disasters.Sum(x => x.allocatedMoney);
+            HttpContext.Session.SetString("Sum", sum.ToString());
+
+
+
+            ViewBag.Sum = HttpContext.Session.GetString("Sum");
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
             return _context.Disasters != null ? 
@@ -62,19 +68,78 @@ namespace APPR6312_POE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("disasterID,Start_Date,End_Date,Location,Description,aid")] Disasters disasters)
+        public async Task<IActionResult> Create([Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney")] Disasters disasters)
         {
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
 
             if (ModelState.IsValid)
             {
+                disasters.allocatedMoney = 0;
                 _context.Add(disasters);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(disasters);
         }
+
+        public async Task<IActionResult> AllocatedMoney(int? id)
+        {
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            ViewBag.surname = HttpContext.Session.GetString("LastName");
+
+            if (id == null || _context.Disasters == null)
+            {
+                return NotFound();
+            }
+
+            var disasters = await _context.Disasters.FindAsync(id);
+            if (disasters == null)
+            {
+                return NotFound();
+            }
+            return View(disasters);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AllocatedMoney(int id, [Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney")] Disasters disasters)
+        {
+            if (id != disasters.disasterID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    ViewBag.name = HttpContext.Session.GetString("FirstName");
+                    ViewBag.surname = HttpContext.Session.GetString("LastName");
+
+                    var sum = _context.Disasters.Sum(x => x.allocatedMoney);
+                    
+
+                    disasters.disasterID = id;
+                    _context.Update(disasters);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DisastersExists(disasters.disasterID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(disasters);
+        }
+
 
         // GET: Disasters/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -97,7 +162,7 @@ namespace APPR6312_POE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("disasterID,Start_Date,End_Date,Location,Description,aid")] Disasters disasters)
+        public async Task<IActionResult> Edit(int id, [Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney")] Disasters disasters)
         {
             if (id != disasters.disasterID)
             {

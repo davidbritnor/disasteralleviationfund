@@ -19,7 +19,7 @@ namespace APPR6312_POE.Models
 
         public DbSet<APPR6312_POE.Models.Admin>? Admin { get; set; }
 
-        public DbSet<APPR6312_POE.Models.GoodsDonations>? GoodsDonations { get; set; }
+        public DbSet<APPR6312_POE.Models.GoodsDonations>? GoodsDonations { get; set; }    
 
         public DbSet<APPR6312_POE.Models.Disasters>? Disasters { get; set; }
 
