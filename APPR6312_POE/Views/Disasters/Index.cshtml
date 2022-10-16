@@ -1,0 +1,128 @@
+﻿@model IEnumerable<APPR6312_POE.Models.Disasters>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    table {
+    }
+
+    th {
+        color: white;
+        background: rgba( 23, 3, 43, 0.45 ) !important;
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+    td {
+        color: white;
+        background: rgba( 23, 3, 43, 0.45 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+</style>
+<center>
+    <br />
+    <h1>Disasters</h1>
+
+    <p float:right>
+        <form asp-action="Create">
+            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Submit a disaster</button>
+        </form>
+    </p>
+</center>
+<table class="table table-hover">
+    <thead>
+        <tr class="table-active">
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.Start_Date)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.End_Date)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.Location)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.Description)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.aid)
+                </center>
+            </th>
+            <th>
+                <center>
+                    View Details
+                </center>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.Start_Date)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.End_Date)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @if(item.Description.Length < 20)
+                        {
+                            <label>
+                                @item.Description
+                            </label>
+                           
+                        }
+                        else
+                        {
+                            <label>
+                                @item.Description.Substring(0,16)
+                                ...
+                            </label>
+                        }
+
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.aid)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.disasterID">Details </a>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

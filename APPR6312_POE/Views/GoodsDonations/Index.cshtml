@@ -1,0 +1,129 @@
+﻿@model IEnumerable<APPR6312_POE.Models.GoodsDonations>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    table {
+    }
+
+    th {
+        color: white;
+        background: rgba( 23, 3, 43, 0.45 ) !important;
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+    td {
+        color: white;
+        background: rgba( 23, 3, 43, 0.45 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+    h1 {
+        color: white;
+    }
+</style>
+<center>
+    <br />
+    <h1>Goods Donations</h1>
+
+    <p>
+        <form asp-action="Create">
+            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Make a Donation</button>
+        </form>
+    </p>
+</center>
+<table class="table table-hover">
+    <thead>
+        <tr class="table-active">
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.date)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.numItems)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.category)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.description)
+                </center>
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.name)
+                </center>
+            </th>
+            <th>
+                <center>
+                View Details
+                </center>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.date)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.numItems)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.category)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                    @if(item.description.Length < 20)
+                        {
+                            <label>
+                                @item.description
+                            </label>
+                           
+                        }
+                        else
+                        {
+                            <label>
+                                @item.description.Substring(0,16)
+                                ...
+                            </label>
+                        }
+                        </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.goodsID">Details</a>
+                    </center>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

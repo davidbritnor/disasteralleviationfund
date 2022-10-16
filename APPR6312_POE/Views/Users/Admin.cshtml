@@ -1,0 +1,113 @@
+﻿@model IEnumerable<APPR6312_POE.Models.Users>
+@{
+    ViewData["Title"] = "Admin";
+}
+<style>   
+    table
+    {
+        
+    }
+
+    th 
+    {  
+
+      color: white;
+      background: rgba( 126, 12, 223, 0.1 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 7.5px );
+    -webkit-backdrop-filter: blur( 7.5px );
+    border-radius: 10px;
+    width: 50px;
+    height: 60px;
+    }
+
+    td
+    {
+        color: white;
+        background: rgba( 255, 255, 255, 0.15 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4.5px );
+        -webkit-backdrop-filter: blur( 4.5px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+  h1 {
+      color: white;
+  }
+</style>
+<br />
+<h1>User Accounts</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr class="table-active">
+            <th>
+                <center>
+                @Html.DisplayNameFor(model => model.email)
+                </center>
+            </th>
+            <th>
+            <center>
+                @Html.DisplayNameFor(model => model.FirstName)
+                </center>
+            </th>
+            <th>
+            <center>
+                @Html.DisplayNameFor(model => model.LastName)
+                </center>
+            </th> 
+            <th>
+            <center>
+                @Html.DisplayNameFor(model => model.status)
+                </center>
+            </th>
+            <th>Approve</th>
+            <th>Deny</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                <center>
+                @Html.DisplayFor(modelItem => item.email)
+                </center>
+            </td> 
+            <td>
+                <center>
+                @Html.DisplayFor(modelItem => item.FirstName)
+                </center>
+            </td>
+            <td>
+                <center>
+                @Html.DisplayFor(modelItem => item.LastName)
+                </center>
+            </td>
+            <td>
+                <center>
+                @Html.DisplayFor(modelItem => item.status)
+                </center>
+            </td>
+            <td>
+                <center>
+                <form method="post" asp-action="Approve">
+                    @Html.Hidden("email", item.email)
+                <button class="btn btn-primary" type="submit">Approve</button>
+                </form>
+                </center>
+            </td>
+            <td>
+                <center>
+                <form asp-action="Deny">
+                 @Html.Hidden("email", item.email)
+                <button class="btn btn-primary" type="submit">Deny</button>
+                </form>
+                </center>
+            </td>
+            
+        </tr>
+}
+    </tbody>
+    </table>
+
