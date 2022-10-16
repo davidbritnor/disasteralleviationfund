@@ -1,20 +1,20 @@
 ﻿@model APPR6312_POE.Models.Disasters
 @{
-    ViewData["Title"] = "AllocatedMoney";
+    ViewData["Title"] = "AllocateGoods";
     var categories = (List<string>)ViewData["Categories"];
-}   
-
+}
 <style>
     option { 
     /* Whatever color  you want */
     color: black;
 }
 </style>
-<h1>Allocate Money to chosen disaster</h1>
+
+<h1>Allocate Goods to chosen disaster</h1>
 
 <div class="row">
     <div id="div_form" class="col-md-4">
-        <form asp-action="AllocatedMoney">
+        <form asp-action="AllocateGoods">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Start_Date" class="control-label"></label>
@@ -46,9 +46,34 @@
                 <input asp-for="allocatedMoney" class="form-control" />
                 <span asp-validation-for="allocatedMoney" class="text-danger"></span>
             </div>
+           
 
+            <div class="form-group">
+            <label asp-for="category" class="control-label">Select a category</label>
+            <select asp-for="category" class="form-control" list="categories" />
+            <datalist id="categories">
+                            @foreach (var item in categories)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </datalist>
+                        <span asp-validation-for="category" class="text-danger"></span>
+            </div>
             
+              
+            <div class="form-group">
+                <label asp-for="numItems" class="control-label"></label>
+                <input asp-for="numItems" class="form-control" />
+                <span asp-validation-for="numItems" class="text-danger"></span>
+            </div>
+
+            <br />
+            <center>
+            <div class="form-group">
+                <input type="submit" asp-action="Index" value="Back" class="btn btn-primary" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+            </center>
         </form>
     </div>
 </div>
-

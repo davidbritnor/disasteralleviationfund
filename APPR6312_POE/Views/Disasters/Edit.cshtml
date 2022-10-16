@@ -2,8 +2,26 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var categories = (List<string>)ViewData["Categories"];
 }
 
+<style>
+    option { 
+    /* Whatever color  you want */
+    color: black;
+    }
+
+    #div_form {
+        margin: auto;
+    }
+
+    #div_button {
+        float: right;
+    }
+}
+</style>
+
+<center>
 <h1>Edit</h1>
 
 <h4>Disasters</h4>
@@ -44,13 +62,50 @@
                 <span asp-validation-for="allocatedMoney" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <label asp-for="category" class="control-label">Select a category</label>
+            <select asp-for="category" class="form-control" list="categories" />
+            <datalist id="categories">
+                            @foreach (var item in categories)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </datalist>
+                        <span asp-validation-for="category" class="text-danger"></span>
             </div>
+            <div class="form-group">
+      <label asp-for="category" for="exampleSelect2" class="form-label mt-4">Example multiple select</label>
+      <select asp-for="category" multiple="" class="form-select" id="exampleSelect2">
+          <datalist id="categories">
+                            @foreach (var item in categories)
+                            {
+                                
+                                <option value="@item">@item</option>
+                            }
+                            
+                        </datalist>  
+      </select>
+    </div>
+            
+            
+              
+            
+             
+            <div class="form-group">
+                <label asp-for="numItems" class="control-label">Number of items being allocated</label>
+                <input asp-for="numItems" class="form-control" />
+                <span asp-validation-for="numItems" class="text-danger"></span>
+            </div> 
+
+            <br />
+            <center>
+            <div class="form-group">
+                <input type="submit" asp-action="Index" value="Back" class="btn btn-primary" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+            </center>
         </form>
     </div>
 </div>
+</center>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

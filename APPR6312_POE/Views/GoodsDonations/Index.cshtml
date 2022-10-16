@@ -79,6 +79,9 @@
     <tbody>
         @foreach (var item in Model)
         {
+            var numitems = item.numItems;
+            List<Disasters> disas = ViewBag.ItemCount;
+              
             <tr>
                 <td>
                     <center>
@@ -87,7 +90,17 @@
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.numItems)
+                       @* @foreach(var d in disas)
+                        {
+                            @if(item.category.Equals(d.category))
+                            {
+                                numitems= item.numItems - d.numItems;
+                                break;
+                            }
+                        }  *@
+                        <label>
+                            @numitems
+                        </label>
                     </center>
                 </td>
                 <td>
@@ -123,7 +136,6 @@
                         <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.goodsID">Details</a>
                     </center>
                 </td>
-            </tr>
-        }
+            </tr>; }
     </tbody>
 </table>

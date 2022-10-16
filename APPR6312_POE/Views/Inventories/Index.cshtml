@@ -1,9 +1,7 @@
-﻿@model IEnumerable<APPR6312_POE.Models.Disasters>
+﻿@model IEnumerable<APPR6312_POE.Models.Inventory>
 
 @{
     ViewData["Title"] = "Index";
-
-
 }
 <style>
     table {
@@ -29,19 +27,17 @@
         border: 1px solid rgba( 255, 255, 255, 0.18 );
     }
 
-
-
     h1 {
         color: white;
     }
 </style>
 <center>
     <br />
-    <h1>Disasters</h1>
-    <h2> Total Money Allocated: R @ViewBag.Sum </h2>
-    <p float:right>
+    <h1>Goods Inventory</h1>
+
+    <p>
         <form asp-action="Create">
-            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Submit a disaster</button>
+            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Make a Donation</button>
         </form>
     </p>
 </center>
@@ -50,122 +46,97 @@
         <tr class="table-active">
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.Start_Date)
+                    @Html.DisplayNameFor(model => model.Idate)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.End_Date)
+                    @Html.DisplayNameFor(model => model.InumItems)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.Location)
+                    @Html.DisplayNameFor(model => model.Icategory)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.Description)
+                    @Html.DisplayNameFor(model => model.Idescription)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.aid)
+                    @Html.DisplayNameFor(model => model.Iname)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.allocatedMoney)
+                View Details
                 </center>
             </th>
-            <th>
-                <center>
-                  Allocated Goods
-                </center>
-            </th>
-            <th>
-                <center>
-                    View Details
-                </center>
-            </th>
-            <th>
-                <center>
-                    Allocate Available Resources
-                </center>
-            </th>
-
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
+            var numitems = item.InumItems;
+            List<Disasters> disas = ViewBag.ItemCount;
               
             <tr>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.Start_Date)
+                        @Html.DisplayFor(modelItem => item.Idate)
                     </center>
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.End_Date)
+                        @foreach(var d in disas)
+                        {
+                            @if(item.Icategory.Equals(d.category))
+                            {
+                                numitems= item.InumItems - d.numItems;
+                                break;
+                            }
+                        }  
+                        <label>
+                            @numitems
+                        </label>
                     </center>
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.Location)
+                        @Html.DisplayFor(modelItem => item.Icategory)
                     </center>
                 </td>
                 <td>
                     <center>
-                        @if(item.Description.Length < 20)
+                    @if(item.Idescription.Length < 20)
                         {
                             <label>
-                                @item.Description
+                                @item.Idescription
                             </label>
                            
                         }
                         else
                         {
                             <label>
-                                @item.Description.Substring(0,16)
+                                @item.Idescription.Substring(0,16)
                                 ...
                             </label>
                         }
-
+                        </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.Iname)
                     </center>
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.aid)
+                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.IgoodsID">Details</a>
                     </center>
                 </td>
-                <td>
-                    <center>
-                        @Html.DisplayFor(modelItem => item.allocatedMoney)
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        @Html.DisplayFor(modelItem => item.category)
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.disasterID">Details </a>
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Resources</a>
-                    </center>
-                </td>
-                @*<td>
-                    <center>
-                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Purchase Goods</a>
-                    </center>
-                </td>*@
-            </tr>
-        }
+            </tr>; }
     </tbody>
 </table>
+

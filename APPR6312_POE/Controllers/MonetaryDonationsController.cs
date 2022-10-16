@@ -30,7 +30,9 @@ namespace APPR6312_POE.Controllers
             // Get remaining money left after subtracting allocated money
             var totalRemaining = Monetarysum - allo;
             HttpContext.Session.SetString("MonetarySum", totalRemaining.ToString());
+            HttpContext.Session.SetString("TotalMon", Monetarysum.ToString());
 
+            ViewBag.MonetaryTotal = HttpContext.Session.GetString("TotalMon");
             ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum"); 
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");

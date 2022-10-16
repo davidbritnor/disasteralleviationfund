@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using APPR6312_POE.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace APPR6312_POE.Controllers
 {
@@ -20,10 +21,11 @@ namespace APPR6312_POE.Controllers
 
         // GET: Disasters
         public async Task<IActionResult> Index()
-        {           
+        {
+            
+
             var sum = _context.Disasters.Sum(x => x.allocatedMoney);
             HttpContext.Session.SetString("Sum", sum.ToString());
-
 
 
             ViewBag.Sum = HttpContext.Session.GetString("Sum");
@@ -56,6 +58,38 @@ namespace APPR6312_POE.Controllers
         }
 
         // GET: Disasters/Create
+        public IActionResult Purchase()
+        {
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            ViewBag.surname = HttpContext.Session.GetString("LastName");
+            return View();
+        }
+
+        // POST: Disasters/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Purchase([Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney,category,numItems")] Disasters disasters)
+        {
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            ViewBag.surname = HttpContext.Session.GetString("LastName");
+
+            
+
+            
+
+            if (ModelState.IsValid)
+            {
+                disasters.allocatedMoney = 0;
+                _context.Add(disasters);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(disasters);
+        }
+
+        // GET: Disasters/Create
         public IActionResult Create()
         {
             ViewBag.name = HttpContext.Session.GetString("FirstName");
@@ -68,10 +102,12 @@ namespace APPR6312_POE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney")] Disasters disasters)
+        public async Task<IActionResult> Create([Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney,category,numItems")] Disasters disasters)
         {
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
+
+           
 
             if (ModelState.IsValid)
             {
@@ -83,11 +119,11 @@ namespace APPR6312_POE.Controllers
             return View(disasters);
         }
 
-        public async Task<IActionResult> AllocatedMoney(int? id)
-        {
-            ViewBag.name = HttpContext.Session.GetString("FirstName");
-            ViewBag.surname = HttpContext.Session.GetString("LastName");
 
+        // GET: Disasters/Edit/5
+        public async Task<IActionResult> AlloGoods(int? id)
+        {
+            
             if (id == null || _context.Disasters == null)
             {
                 return NotFound();
@@ -101,26 +137,19 @@ namespace APPR6312_POE.Controllers
             return View(disasters);
         }
 
+        // POST: Disasters/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AllocatedMoney(int id, [Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney")] Disasters disasters)
+        public async Task<IActionResult> AlloGoods(int id, [Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney,category,numItems")] Disasters disasters)
         {
-            if (id != disasters.disasterID)
-            {
-                return NotFound();
-            }
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    ViewBag.name = HttpContext.Session.GetString("FirstName");
-                    ViewBag.surname = HttpContext.Session.GetString("LastName");
-
-                    var sum = _context.Disasters.Sum(x => x.allocatedMoney);
-                    
-
-                    disasters.disasterID = id;
                     _context.Update(disasters);
                     await _context.SaveChangesAsync();
                 }
@@ -141,9 +170,14 @@ namespace APPR6312_POE.Controllers
         }
 
 
+
+
         // GET: Disasters/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var outputList = _context.GoodsDonations.Select(x => x.category).Distinct().ToList();
+            ViewData["Categories"] = outputList;
+
             if (id == null || _context.Disasters == null)
             {
                 return NotFound();
@@ -162,8 +196,17 @@ namespace APPR6312_POE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney")] Disasters disasters)
+        public async Task<IActionResult> Edit(int id, [Bind("disasterID,Start_Date,End_Date,Location,Description,aid,allocatedMoney,category,numItems")] Disasters disasters)
         {
+            GoodsDonations gd = new GoodsDonations();
+            Disasters d = new Disasters();
+
+            //var amount = _context.Disasters.Where(x => x.category == d.category).FirstOrDefault();
+
+            //var totalleft = amount.numItems - d.numItems;
+
+
+
             if (id != disasters.disasterID)
             {
                 return NotFound();
