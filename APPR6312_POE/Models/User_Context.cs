@@ -25,6 +25,8 @@ namespace APPR6312_POE.Models
 
         public DbSet<APPR6312_POE.Models.Inventory> Inventory { get; set; }
 
+        public DbSet<APPR6312_POE.Models.PurchasedGoods> PurchasedGoods { get; set; }
+
 
     }
 }

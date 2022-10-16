@@ -8,8 +8,10 @@ namespace APPR6312_POE.Models
 
         public int purchaseID { get; set; }
         public DateTime date { get; set; }
-        public string item { get; set; }
+        public int numItems { get; set; }
         public string category { get; set; }
+        public string description { get; set; }
+        public string name { get; set; }
         public decimal price { get; set; }
 
     }
