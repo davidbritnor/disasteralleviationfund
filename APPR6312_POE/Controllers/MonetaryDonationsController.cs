@@ -21,6 +21,7 @@ namespace APPR6312_POE.Controllers
         // GET: MonetaryDonations
         public async Task<IActionResult> Index()
         {
+
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
             return _context.MonetaryDonations != null ? 

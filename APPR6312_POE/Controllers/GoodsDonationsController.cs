@@ -76,6 +76,10 @@ namespace APPR6312_POE.Controllers
                 {
                     goodsDonations.name = "Anonymous";
                 }
+                else
+                {
+                    goodsDonations.name = ViewBag.name;
+                }
                 _context.Add(goodsDonations);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
