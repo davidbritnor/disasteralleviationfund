@@ -63,12 +63,7 @@
                 <center>
                     @Html.DisplayNameFor(model => model.Iname)
                 </center>
-            </th>
-            <th>
-                <center>
-                View Details
-                </center>
-            </th>
+            </th>       
         </tr>
     </thead>
     <tbody>
@@ -125,12 +120,7 @@
                     <center>
                         @Html.DisplayFor(modelItem => item.Iname)
                     </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.IgoodsID">Details</a>
-                    </center>
-                </td>
+                </td>               
             </tr>; }
     </tbody>
 </table>
