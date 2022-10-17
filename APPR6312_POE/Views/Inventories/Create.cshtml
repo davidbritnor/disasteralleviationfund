@@ -1,0 +1,50 @@
+﻿@model APPR6312_POE.Models.Inventory
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Inventory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Idate" class="control-label"></label>
+                <input asp-for="Idate" class="form-control" />
+                <span asp-validation-for="Idate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InumItems" class="control-label"></label>
+                <input asp-for="InumItems" class="form-control" />
+                <span asp-validation-for="InumItems" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Icategory" class="control-label"></label>
+                <input asp-for="Icategory" class="form-control" />
+                <span asp-validation-for="Icategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Idescription" class="control-label"></label>
+                <input asp-for="Idescription" class="form-control" />
+                <span asp-validation-for="Idescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Iname" class="control-label"></label>
+                <input asp-for="Iname" class="form-control" />
+                <span asp-validation-for="Iname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -21,6 +21,23 @@ namespace APPR6312_POE.Controllers
         // GET: MonetaryDonations
         public async Task<IActionResult> Index()
         {
+            // Get total of allocated money to disasters
+            var allo = _context.Disasters.Sum(x => x.allocatedMoney);
+
+            // Get total of monetary donations
+            var Monetarysum = _context.MonetaryDonations.Sum(x => x.amount);
+
+            // Get total of purchased goods
+            var purchaseTotal = _context.PurchasedGoods.Sum(x => x.price);
+            // Get remaining money left after subtracting allocated money
+            var totalRemaining = Monetarysum - allo - purchaseTotal;
+
+            HttpContext.Session.SetString("MonetarySum", totalRemaining.ToString());
+            HttpContext.Session.SetString("TotalMon", Monetarysum.ToString());
+
+
+            ViewBag.MonetaryTotal = HttpContext.Session.GetString("TotalMon");
+            ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum"); 
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
             return _context.MonetaryDonations != null ? 
@@ -118,7 +135,8 @@ namespace APPR6312_POE.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                {                   
+
                     _context.Update(monetaryDonations);
                     await _context.SaveChangesAsync();
                 }

@@ -21,6 +21,10 @@ namespace APPR6312_POE.Controllers
         // GET: GoodsDonations
         public async Task<IActionResult> Index()
         {
+            var itemCount = _context.Disasters.ToList();
+
+            ViewBag.ItemCount = itemCount;
+
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
             return _context.GoodsDonations != null ? 
@@ -70,13 +74,30 @@ namespace APPR6312_POE.Controllers
             var outputList = _context.GoodsDonations.Select(x => x.category).Distinct().ToList();
             ViewData["Categories"] = outputList;
 
+            Inventory inven = new Inventory();
+
             if (ModelState.IsValid)
             {
                 if (anon == true)
                 {
                     goodsDonations.name = "Anonymous";
                 }
+                else
+                {
+                    goodsDonations.name = ViewBag.name;
+                }
+
+                inven.IgoodsID = goodsDonations.goodsID;
+                inven.Idate = goodsDonations.date;
+                inven.InumItems = goodsDonations.numItems;
+                inven.Icategory = goodsDonations.category;
+                inven.Idescription = goodsDonations.description;
+                inven.Iname = goodsDonations.name;
+                _context.Add(inven);
+
+
                 _context.Add(goodsDonations);
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

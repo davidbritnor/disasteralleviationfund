@@ -18,5 +18,15 @@ namespace APPR6312_POE.Models
         [Required]
         [DisplayName("Aid Required")]
         public string aid { get; set; }
+        [Required]
+        [DisplayName("Allocated Money")]
+        public decimal allocatedMoney { get; set; }
+        [Required]
+        [DisplayName("Category")]
+        public string category { get; set; } = "None";
+        [Required]
+        [DisplayName("Item Count")]
+        public int numItems { get; set; } = 0;
+
     }
 }

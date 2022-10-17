@@ -15,8 +15,12 @@ namespace APPR6312_POE.Controllers
 
         public IActionResult Index()
         {
+        
+
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
+            ViewBag.Sum = HttpContext.Session.GetString("Sum");
+            ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum");
             return View();
         }
 

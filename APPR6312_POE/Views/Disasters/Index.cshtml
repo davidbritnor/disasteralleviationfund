@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
+
+
 }
 <style>
     table {
@@ -26,11 +28,17 @@
         border-radius: 10px;
         border: 1px solid rgba( 255, 255, 255, 0.18 );
     }
+
+
+
+    h1 {
+        color: white;
+    }
 </style>
 <center>
     <br />
     <h1>Disasters</h1>
-
+    <h2> Total Money Allocated: R @ViewBag.Sum </h2>
     <p float:right>
         <form asp-action="Create">
             <button type="submit" asp-action="Create" value="" class="btn btn-primary">Submit a disaster</button>
@@ -67,7 +75,22 @@
             </th>
             <th>
                 <center>
+                    @Html.DisplayNameFor(model => model.allocatedMoney)
+                </center>
+            </th>
+            <th>
+                <center>
+                  Allocated Goods
+                </center>
+            </th>
+            <th>
+                <center>
                     View Details
+                </center>
+            </th>
+            <th>
+                <center>
+                    Allocate Available Resources
                 </center>
             </th>
 
@@ -76,7 +99,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-
+              
             <tr>
                 <td>
                     <center>
@@ -119,9 +142,29 @@
                 </td>
                 <td>
                     <center>
+                        @Html.DisplayFor(modelItem => item.allocatedMoney)
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.category)
+                    </center>
+                </td>
+                <td>
+                    <center>
                         <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.disasterID">Details </a>
                     </center>
                 </td>
+                <td>
+                    <center>
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Resources</a>
+                    </center>
+                </td>
+                @*<td>
+                    <center>
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Purchase Goods</a>
+                    </center>
+                </td>*@
             </tr>
         }
     </tbody>

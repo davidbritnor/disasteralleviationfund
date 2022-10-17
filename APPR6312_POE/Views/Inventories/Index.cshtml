@@ -1,4 +1,4 @@
-﻿@model IEnumerable<APPR6312_POE.Models.GoodsDonations>
+﻿@model IEnumerable<APPR6312_POE.Models.Inventory>
 
 @{
     ViewData["Title"] = "Index";
@@ -33,40 +33,35 @@
 </style>
 <center>
     <br />
-    <h1>Goods Donations</h1>
-
-    <p>
-        <form asp-action="Create">
-            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Make a Donation</button>
-        </form>
-    </p>
+    <h1>Goods Inventory</h1>
+    <h2> Current available items</h2>
 </center>
 <table class="table table-hover">
     <thead>
         <tr class="table-active">
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.date)
+                    @Html.DisplayNameFor(model => model.Idate)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.numItems)
+                    @Html.DisplayNameFor(model => model.InumItems)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.category)
+                    @Html.DisplayNameFor(model => model.Icategory)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.description)
+                    @Html.DisplayNameFor(model => model.Idescription)
                 </center>
             </th>
             <th>
                 <center>
-                    @Html.DisplayNameFor(model => model.name)
+                    @Html.DisplayNameFor(model => model.Iname)
                 </center>
             </th>
             <th>
@@ -79,25 +74,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var numitems = item.numItems;
+            var numitems = item.InumItems;
             List<Disasters> disas = ViewBag.ItemCount;
               
             <tr>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.date)
+                        @Html.DisplayFor(modelItem => item.Idate)
                     </center>
                 </td>
                 <td>
                     <center>
-                       @* @foreach(var d in disas)
+                        @foreach(var d in disas)
                         {
-                            @if(item.category.Equals(d.category))
+                            @if(item.Icategory.Equals(d.category))
                             {
-                                numitems= item.numItems - d.numItems;
+                                numitems= item.InumItems - d.numItems;
                                 break;
                             }
-                        }  *@
+                        }  
                         <label>
                             @numitems
                         </label>
@@ -105,22 +100,22 @@
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.category)
+                        @Html.DisplayFor(modelItem => item.Icategory)
                     </center>
                 </td>
                 <td>
                     <center>
-                    @if(item.description.Length < 20)
+                    @if(item.Idescription.Length < 20)
                         {
                             <label>
-                                @item.description
+                                @item.Idescription
                             </label>
                            
                         }
                         else
                         {
                             <label>
-                                @item.description.Substring(0,16)
+                                @item.Idescription.Substring(0,16)
                                 ...
                             </label>
                         }
@@ -128,14 +123,15 @@
                 </td>
                 <td>
                     <center>
-                        @Html.DisplayFor(modelItem => item.name)
+                        @Html.DisplayFor(modelItem => item.Iname)
                     </center>
                 </td>
                 <td>
                     <center>
-                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.goodsID">Details</a>
+                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.IgoodsID">Details</a>
                     </center>
                 </td>
             </tr>; }
     </tbody>
 </table>
+
