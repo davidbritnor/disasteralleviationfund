@@ -10,6 +10,15 @@
         margin: auto;
     }
 </style>
+
+@if (ViewBag.Error != null)
+{
+    <script type="text/javascript">
+        window.onload = function() {
+            alert("@ViewBag.Error");
+        };
+    </script>
+}
 <center>
 <h1>Purchase Goods</h1>
 <hr />

@@ -38,22 +38,28 @@
     <br />
 <h1>Purchased Goods</h1>
 <p float:right>
-        <form asp-action="Create">
-            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Purchase an item</button>
-        </form>
+       
+            <a asp-action="Create" value="" class="btn btn-primary">Purchase an item</a>
     </p>
 <table class="table">
     <thead>
         <tr>
+            
             <th>
+                <center>
                 @Html.DisplayNameFor(model => model.date)
+                </center>
             </th>
-  
+            
             <th>
+                <center>
                 @Html.DisplayNameFor(model => model.category)
+                </center>
             </th>
             <th>
+                <center>
                 @Html.DisplayNameFor(model => model.price)
+                </center>
             </th>
             <th></th>
         </tr>
@@ -62,13 +68,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <center>
                 @Html.DisplayFor(modelItem => item.date)
+                </center>
             </td>
             <td>
+                <center>
                 @Html.DisplayFor(modelItem => item.category)
+                </center>
             </td>
             <td>
+                <center>
                 @Html.DisplayFor(modelItem => item.price)
+                </center>
             </td>
             <td>
                     <center>

@@ -175,7 +175,7 @@ namespace APPR6312_POE.Controllers
         // GET: Disasters/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var outputList = _context.GoodsDonations.Select(x => x.category).Distinct().ToList();
+            var outputList = _context.Inventory.Select(x => x.Icategory).Distinct().ToList();
             ViewData["Categories"] = outputList;
 
             if (id == null || _context.Disasters == null)
@@ -205,6 +205,16 @@ namespace APPR6312_POE.Controllers
 
             //var totalleft = amount.numItems - d.numItems;
 
+            // Get total of allocated money to disasters
+            var allo = _context.Disasters.Sum(x => x.allocatedMoney);
+
+            // Get total of monetary donations
+            var Monetarysum = _context.MonetaryDonations.Sum(x => x.amount);
+
+            // Get total of purchased goods
+            var purchaseTotal = _context.PurchasedGoods.Sum(x => x.price);
+            // Get remaining money left after subtracting allocated money
+            var totalRemaining = Monetarysum - allo - purchaseTotal;
 
 
             if (id != disasters.disasterID)
@@ -216,8 +226,15 @@ namespace APPR6312_POE.Controllers
             {
                 try
                 {
+                    if(disasters.allocatedMoney < totalRemaining)
+                    { 
                     _context.Update(disasters);
                     await _context.SaveChangesAsync();
+                    }
+                    else if (disasters.allocatedMoney > totalRemaining)
+                    {
+                        ViewBag.Error = "Insufficent funds available";
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
