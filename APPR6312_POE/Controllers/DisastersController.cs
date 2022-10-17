@@ -175,6 +175,9 @@ namespace APPR6312_POE.Controllers
         // GET: Disasters/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            ViewBag.surname = HttpContext.Session.GetString("LastName");
+
             var outputList = _context.Inventory.Select(x => x.Icategory).Distinct().ToList();
             ViewData["Categories"] = outputList;
 
