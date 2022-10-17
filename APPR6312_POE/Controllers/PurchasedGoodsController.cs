@@ -21,7 +21,10 @@ namespace APPR6312_POE.Controllers
         // GET: PurchasedGoods
         public async Task<IActionResult> Index()
         {
-              return View(await _context.PurchasedGoods.ToListAsync());
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            ViewBag.surname = HttpContext.Session.GetString("LastName");
+
+            return View(await _context.PurchasedGoods.ToListAsync());
         }
 
         // GET: PurchasedGoods/Details/5
@@ -45,6 +48,9 @@ namespace APPR6312_POE.Controllers
         // GET: PurchasedGoods/Create
         public IActionResult Create()
         {
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            ViewBag.surname = HttpContext.Session.GetString("LastName");
+
             return View();
         }
 
@@ -55,6 +61,9 @@ namespace APPR6312_POE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("purchaseID,date,numItems,category,description,name,price")] PurchasedGoods purchasedGoods)
         {
+            ViewBag.name = HttpContext.Session.GetString("FirstName");
+            ViewBag.surname = HttpContext.Session.GetString("LastName");
+
             if (ModelState.IsValid)
             {
                 Inventory i = new Inventory();

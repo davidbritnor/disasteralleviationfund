@@ -3,12 +3,45 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+     table {
+    }
 
-<h1>Index</h1>
+    th {
+        color: white;
+        background: rgba( 23, 3, 43, 0.45 ) !important;
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    td {
+        color: white;
+        background: rgba( 23, 3, 43, 0.45 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+
+
+    h1 {
+        color: white;
+    }
+</style>
+
+<center>
+    <br />
+<h1>Purchased Goods</h1>
+<p float:right>
+        <form asp-action="Create">
+            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Purchase an item</button>
+        </form>
+    </p>
 <table class="table">
     <thead>
         <tr>
@@ -38,11 +71,12 @@
                 @Html.DisplayFor(modelItem => item.price)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.purchaseID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.purchaseID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.purchaseID">Delete</a>
-            </td>
+                    <center>
+                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.purchaseID">Details</a>
+                    </center>
+                </td>
         </tr>
 }
     </tbody>
 </table>
+</center>
