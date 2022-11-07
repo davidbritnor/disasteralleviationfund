@@ -54,6 +54,33 @@ namespace APPR6312_POE.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> Public()
+        {
+            var itemCount = _context.GoodsDonations.Sum(x => x.numItems);
+
+            // Get total of allocated money to disasters
+            var allo = _context.Disasters.Sum(x => x.allocatedMoney);
+
+            // Get total of monetary donations
+            var Monetarysum = _context.MonetaryDonations.Sum(x => x.amount);
+
+            // Get total of purchased goods
+            var purchaseTotal = _context.PurchasedGoods.Sum(x => x.price);
+            // Get remaining money left after subtracting allocated money
+            var totalRemaining = Monetarysum - allo - purchaseTotal;
+
+            HttpContext.Session.SetString("MonetarySum", totalRemaining.ToString());
+            HttpContext.Session.SetString("TotalMon", Monetarysum.ToString());
+            HttpContext.Session.SetString("TotalGoods", itemCount.ToString());
+
+
+            ViewBag.MonetaryTotal = HttpContext.Session.GetString("TotalMon");
+            ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum");
+            ViewBag.TotalGoods = HttpContext.Session.GetString("TotalGoods");
+
+
+            return View();
+        }
         public IActionResult Test()
         {
             return View();

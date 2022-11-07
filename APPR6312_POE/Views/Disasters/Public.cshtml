@@ -1,44 +1,14 @@
 ﻿@model IEnumerable<APPR6312_POE.Models.Disasters>
-
 @{
-    ViewData["Title"] = "Index";
-
-
+    ViewData["Title"] = "Public";
 }
-<style>
-    table {
-    }
 
-    th {
-        color: white;
-        background: rgba( 23, 3, 43, 0.45 ) !important;
-        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-        backdrop-filter: blur( 4px );
-        -webkit-backdrop-filter: blur( 4px );
-        border-radius: 10px;
-        border: 1px solid rgba( 255, 255, 255, 0.18 );
-    }
+<h1>Public</h1>
 
-    td {
-        color: white;
-        background: rgba( 23, 3, 43, 0.45 );
-        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-        backdrop-filter: blur( 4px );
-        -webkit-backdrop-filter: blur( 4px );
-        border-radius: 10px;
-        border: 1px solid rgba( 255, 255, 255, 0.18 );
-    }
-
-
-
-    h1 {
-        color: white;
-    }
-</style>
 <center>
     <br />
     <h1>Disasters</h1>
-    <h2> Total Money Allocated: R @ViewBag.Sum </h2>
+    
     <p float:right>
         <form asp-action="Create">
             <button type="submit" asp-action="Create" value="" class="btn btn-primary">Submit a disaster</button>
@@ -78,21 +48,7 @@
                     @Html.DisplayNameFor(model => model.allocatedMoney)
                 </center>
             </th>
-            <th>
-                <center>
-                  Allocated Goods
-                </center>
-            </th>
-            <th>
-                <center>
-                    View Details
-                </center>
-            </th>
-            <th>
-                <center>
-                    Allocate Available Resources
-                </center>
-            </th>
+       
 
         </tr>
     </thead>
@@ -149,23 +105,9 @@
                     <center>
                         @Html.DisplayFor(modelItem => item.category)
                     </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.disasterID">Details </a>
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Resources</a>
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Purchase Goods</a>
-                    </center>
-                </td>
+                </td>             
             </tr>
         }
     </tbody>
 </table>
+

@@ -57,6 +57,11 @@ namespace APPR6312_POE.Controllers
             return View(disasters);
         }
 
+        public async Task<IActionResult> Public()
+        {
+            return View();
+        }
+
         // GET: Disasters/Create
         public IActionResult Purchase()
         {
