@@ -2,18 +2,16 @@
 @{
     ViewData["Title"] = "Public";
 }
-
-<h1>Public</h1>
-
+<br />
 <center>
+    <h4>Total amount donated: R @ViewBag.MonetaryTotal</h4>
+    <h4>Total number of goods recieved: @ViewBag.TotalGoods</h4>
+
     <br />
-    <h1>Disasters</h1>
+    <h1>Current active disasters with allocated money and goods</h1>
+    <br />
     
-    <p float:right>
-        <form asp-action="Create">
-            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Submit a disaster</button>
-        </form>
-    </p>
+ 
 </center>
 <table class="table table-hover">
     <thead>
@@ -46,6 +44,11 @@
             <th>
                 <center>
                     @Html.DisplayNameFor(model => model.allocatedMoney)
+                </center>
+            </th>
+            <th>
+                <center>
+                    Allocated Goods
                 </center>
             </th>
        
