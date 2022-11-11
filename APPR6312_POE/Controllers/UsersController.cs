@@ -86,6 +86,8 @@ namespace APPR6312_POE.Controllers
             return View();
         }
 
+        
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -96,25 +98,27 @@ namespace APPR6312_POE.Controllers
             HttpContext.Session.SetString("password", e_password);
             ViewBag.password = HttpContext.Session.GetString("password");
 
-            var admin = _context.Users.Where(s => s.email == email && s.password == e_password && s.status == "Admin").FirstOrDefault();
-            var obj = _context.Users.Where(a => a.email == email && a.password == e_password && a.status == "Approved").FirstOrDefault();
+            var admin = _context.Users.ToList();
 
-            if (admin != null)
+
+            if (loginTest(email, password) != false)
             {
-                HttpContext.Session.SetString("FirstName", admin.FirstName);
-                HttpContext.Session.SetString("LastName", admin.LastName);
+                Users u = _context.Users.Find(email);
+
+                setSessions(u);
+
                 return RedirectToAction("Admin");
             }
             else
             
-            if (obj != null)
+            if (loginTest(email, password) != true)
             {
-                
+                Users u = _context.Users.Find(email);
+
+                setSessions(u);
+
                 //ViewBag.Sum = HttpContext.Session.GetString("Sum");
-                HttpContext.Session.SetString("Email", email);
-                ViewBag.email = HttpContext.Session.GetString("Email");
-                HttpContext.Session.SetString("FirstName", obj.FirstName);
-                HttpContext.Session.SetString("LastName", obj.LastName);
+
                 return RedirectToAction("Index" , "Home");
             }
             else
@@ -330,6 +334,84 @@ namespace APPR6312_POE.Controllers
 
             }
             return byte2String;
+        }
+
+        public bool loginAdmin(string email, string password)
+        {
+            var e_password = GetMD5(password);
+
+            HttpContext.Session.SetString("password", e_password);
+            ViewBag.password = HttpContext.Session.GetString("password");
+
+            var admin = _context.Users.Where(s => s.email == email && s.password == e_password && s.status == "Admin").FirstOrDefault();
+
+            HttpContext.Session.SetString("FirstName", email);
+
+            if(admin.status == "Admin")
+            {
+
+            }
+
+            return true;       
+        }
+
+        public bool loginUser(string email, string password)
+        {
+            var e_password = GetMD5(password);
+
+            HttpContext.Session.SetString("password", e_password);
+            ViewBag.password = HttpContext.Session.GetString("password");
+
+            var obj = _context.Users.Where(a => a.email == email && a.password == e_password && a.status == "Approved").FirstOrDefault();
+
+            if(obj.status == "Approved")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //HttpContext.Session.SetString("Email", email);
+            //ViewBag.email = HttpContext.Session.GetString("Email");
+            //HttpContext.Session.SetString("FirstName", obj.FirstName);
+            //HttpContext.Session.SetString("LastName", obj.LastName);
+           
+        }
+
+        public void setSessions(Users user)
+        {
+            HttpContext.Session.SetString("Email", user.email);
+            HttpContext.Session.SetString("FirstName", user.FirstName);
+            HttpContext.Session.SetString("LastName", user.LastName);
+            HttpContext.Session.SetString("CellNumber", user.CellNumber);
+            HttpContext.Session.SetString("Status", user.status);
+
+        }
+
+        public bool loginTest(string email, string password)
+        {
+            var e_password = GetMD5(password);
+
+            //HttpContext.Session.SetString("password", e_password);
+            //ViewBag.password = HttpContext.Session.GetString("password");
+
+            var obj = _context.Users.Where(a => a.email == email && a.password == e_password).FirstOrDefault();
+
+            if(obj.status == "Admin")
+            {         
+
+                return true;
+            }
+            else if (obj.status == "Approved")
+            {
+              
+                return false;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

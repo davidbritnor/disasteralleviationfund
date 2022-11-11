@@ -326,5 +326,12 @@ namespace APPR6312_POE.Controllers
         {
           return (_context.Disasters?.Any(e => e.disasterID == id)).GetValueOrDefault();
         }
+
+        public Inventory checkBalance(String category)
+        {
+            var check = _context.Inventory.Where(x => x.Icategory == category).FirstOrDefault();
+
+            return check;
+        }
     }
 }

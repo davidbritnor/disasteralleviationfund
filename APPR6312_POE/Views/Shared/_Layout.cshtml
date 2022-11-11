@@ -36,6 +36,11 @@
             float: right !important;
         }
 
+        #li_float {
+            margin-left: 60% !important;
+            margin-right: -10% !important;
+        }
+
         /* Add a black background color to the top navigation */
         .topnav {
             background-color: #333;
@@ -64,58 +69,65 @@
                     color: white;
                 }
 
-                .right {
-                    margin-left: 5%;
-                    margin-right: 6%;
-                }
+        .right {
+            margin-left: 5%;
+            margin-right: 6%;
+        }
 
     </style>
 </head>
 <body>
     <header>
- 
+
         <nav id="nav_height" class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                @if(!String.IsNullOrWhiteSpace(name) && !String.IsNullOrWhiteSpace(surname))
+                @if (!String.IsNullOrWhiteSpace(name) && !String.IsNullOrWhiteSpace(surname))
                 {
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Disaster Alleviation Fund</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div id="li_right" class="collapse navbar-collapse" id="navbarColor02">
-                    <ul id="li_right" class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-controller="Home" asp-action="Index">
-                                Menu
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                        
-                    </ul>
-                    <form class="right">
-                        <ul class="navbar-nav me-auto">
-                        <li class="nav-item dropdown">
-                            <a id="li_right" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@ViewBag.name @ViewBag.surname</a>
-                            <div id="li_right" class="dropdown-menu">
-                                <a  class="dropdown-item" asp-controller="Users" asp-action="Index">User Information</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="li_right" class="collapse navbar-collapse" id="navbarColor02">
+                        <ul id="li_right" class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-controller="Home" asp-action="Index">
+                                    Menu
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            </li>
 
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-controller="Users" asp-action="Login">Logout</a>
-                            </div>
-                        </li>
                         </ul>
+                        <form class="right">
+                            <ul class="navbar-nav me-auto">
+                                <li class="nav-item dropdown">
+                                    <a id="li_right" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@ViewBag.name @ViewBag.surname</a>
+                                    <div id="li_right" class="dropdown-menu">
+                                        <a class="dropdown-item" asp-controller="Users" asp-action="Index">User Information</a>
+
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" asp-controller="Users" asp-action="Login">Logout</a>
+                                    </div>
+                                </li>
+                            </ul>
                         </form>
-                </div>
-            
-                } 
+                    </div>
+
+                }
                 else
                 {
 
-                        <form id = "li_right" class="right">
-                        </form> 
-                        <form id = "li_right" class="right">
-                       <a class="navbar-brand" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
-                        </form> 
+                    <form class="right">
+                        <a class="navbar-brand" asp-area="" asp-controller="Disasters" asp-action="Public">Public Page</a>
+                    </form>
+
+                    <form id="li_float" class="right">
+                        <a class="navbar-brand" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
+                    </form>
+
+                    <form class="right">
+                        <a class="navbar-brand" asp-area="" asp-controller="Users" asp-action="Register">Sign Up</a>
+                    </form>
+
                 }
         </nav>
     </header>

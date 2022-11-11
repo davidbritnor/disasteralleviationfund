@@ -4,14 +4,57 @@
 }
 <br />
 <center>
-    <h4>Total amount donated: R @ViewBag.MonetaryTotal</h4>
-    <h4>Total number of goods recieved: @ViewBag.TotalGoods</h4>
+    <h2> Total Amounts Received</h2>
+    <br />
+    <div class="card border-secondary mb-3" style="max-width: 20rem; max-height: 20rem; margin-top: 0%; margin-right: 35%">
+        <div class="card-header">Total Amount of Money Donated:</div>
+        <div class="card-body">
+            <h4 class="card-title">R @ViewBag.MonetaryTotal</h4>
+        </div>
+    </div>
+    <div class="card border-secondary mb-3" style="max-width: 20rem; max-height: 20rem; margin-left: 40%; margin-top: -14.1%;">
+        <div class="card-header">Total number of goods recieved:</div>
+        <div class="card-body">
+            <h4 class="card-title">@ViewBag.TotalGoods</h4>
+        </div>
+    </div>
 
     <br />
-    <h1>Current active disasters with allocated money and goods</h1>
+    <h2>Current active disasters with allocated money and goods</h2>
     <br />
-    
- 
+
+    @*<table class="table table-hover">
+        <thead>
+        <tr class="table-active">
+        <th>
+        <center>
+        Total Amount of Money Donated
+        </center>
+        </th>
+        <th>
+        <center>
+        Total Number of Goods Received
+        </center>
+        </th>
+        </tr>
+        <tr>
+        <td>
+        <center>
+        @ViewBag.MonetaryTotal
+        </center>
+        </td>
+        <td>
+        <center>
+        @ViewBag.TotalGoods
+        </center>
+        </td>
+        </tr>
+
+        </tbody>
+        </table>*@
+
+
+
 </center>
 <table class="table table-hover">
     <thead>
@@ -51,14 +94,14 @@
                     Allocated Goods
                 </center>
             </th>
-       
+
 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-              
+
             <tr>
                 <td>
                     <center>
@@ -77,12 +120,12 @@
                 </td>
                 <td>
                     <center>
-                        @if(item.Description.Length < 20)
+                        @if (item.Description.Length < 20)
                         {
                             <label>
                                 @item.Description
                             </label>
-                           
+
                         }
                         else
                         {
@@ -108,7 +151,7 @@
                     <center>
                         @Html.DisplayFor(modelItem => item.category)
                     </center>
-                </td>             
+                </td>
             </tr>
         }
     </tbody>

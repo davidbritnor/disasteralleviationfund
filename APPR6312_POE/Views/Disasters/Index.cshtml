@@ -80,7 +80,7 @@
             </th>
             <th>
                 <center>
-                  Allocated Goods
+                    Allocated Goods
                 </center>
             </th>
             <th>
@@ -99,7 +99,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-              
+
             <tr>
                 <td>
                     <center>
@@ -118,12 +118,12 @@
                 </td>
                 <td>
                     <center>
-                        @if(item.Description.Length < 20)
+                        @if (item.Description.Length < 20)
                         {
                             <label>
                                 @item.Description
                             </label>
-                           
+
                         }
                         else
                         {
@@ -158,11 +158,6 @@
                 <td>
                     <center>
                         <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Resources</a>
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Purchase Goods</a>
                     </center>
                 </td>
             </tr>

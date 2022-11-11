@@ -37,10 +37,10 @@ namespace APPR6312_POE.Controllers
 
 
             ViewBag.MonetaryTotal = HttpContext.Session.GetString("TotalMon");
-            ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum"); 
+            ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum");
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
-            return _context.MonetaryDonations != null ? 
+            return _context.MonetaryDonations != null ?
                           View(await _context.MonetaryDonations.ToListAsync()) :
                           Problem("Entity set 'User_Context.MonetaryDonations'  is null.");
         }
@@ -83,7 +83,7 @@ namespace APPR6312_POE.Controllers
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
 
-            
+
 
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace APPR6312_POE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
-                
+
             }
             return View(monetaryDonations);
         }
@@ -135,7 +135,7 @@ namespace APPR6312_POE.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {                   
+                {
 
                     _context.Update(monetaryDonations);
                     await _context.SaveChangesAsync();
@@ -188,14 +188,14 @@ namespace APPR6312_POE.Controllers
             {
                 _context.MonetaryDonations.Remove(monetaryDonations);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MonetaryDonationsExists(int id)
         {
-          return (_context.MonetaryDonations?.Any(e => e.monetaryID == id)).GetValueOrDefault();
+            return (_context.MonetaryDonations?.Any(e => e.monetaryID == id)).GetValueOrDefault();
         }
     }
 }
