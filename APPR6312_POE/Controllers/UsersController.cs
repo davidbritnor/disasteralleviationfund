@@ -54,6 +54,7 @@ namespace APPR6312_POE.Controllers
         {
             return View();
         }
+
         public async Task<IActionResult> Public()
         {
             var itemCount = _context.GoodsDonations.Sum(x => x.numItems);
@@ -199,6 +200,27 @@ namespace APPR6312_POE.Controllers
             return View();
         }
 
+        public bool testRegister(Users user)
+        {
+            bool test = true;
+
+            while(test == true)
+            {
+                Users u = new Users();
+
+                u.email = user.email;
+                u.password = GetMD5(user.password);
+                u.FirstName = user.FirstName;
+                u.LastName = user.LastName;
+                u.CellNumber = user.CellNumber;
+                u.status = user.status;
+
+                test = false;
+            }
+            return false;
+           
+        }
+
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -208,7 +230,7 @@ namespace APPR6312_POE.Controllers
         {
             if (ModelState.IsValid)
             {
-                users.password = GetMD5(users.password);
+                testRegister(users);
 
                 _context.Add(users);
                 await _context.SaveChangesAsync();

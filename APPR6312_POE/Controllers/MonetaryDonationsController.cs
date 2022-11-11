@@ -17,10 +17,11 @@ namespace APPR6312_POE.Controllers
         {
             _context = context;
         }
-
+       
         // GET: MonetaryDonations
         public async Task<IActionResult> Index()
         {
+
             // Get total of allocated money to disasters
             var allo = _context.Disasters.Sum(x => x.allocatedMoney);
 

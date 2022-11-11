@@ -80,6 +80,32 @@ namespace MSUnitTesting
         }
         #endregion
 
+        [TestMethod]
+        public void Register_Pass()
+        {
+            Users user = new Users();
+
+            user.email = "oliver@gmail.com";
+            user.password = "Password";
+            user.FirstName = "Oliver";
+            user.LastName = "Honiball";
+            user.CellNumber = "1234566778";
+            user.status = "Pending";
+
+            UsersController users = new UsersController(_context);
+
+            Assert.AreEqual(false, users.testRegister(user));
+        }
+
+        public void Totals()
+        {
+            MonetaryDonations mon = new MonetaryDonations();
+
+
+        }
+
+
+        #region Populating User in database
         public void Users()
         {
             Users users1 = new Users();
@@ -115,5 +141,6 @@ namespace MSUnitTesting
 
             _context.SaveChanges();
         }
+        #endregion
     }
 }
