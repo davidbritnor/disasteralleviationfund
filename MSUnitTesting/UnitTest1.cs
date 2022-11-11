@@ -30,8 +30,8 @@ namespace MSUnitTesting
             Users();
         }
 
-        
 
+        #region Unit Test for login
         [TestMethod]
         public void LoginPass()
         {
@@ -42,17 +42,18 @@ namespace MSUnitTesting
             string email2 = "davidbritnor@gmail.com";
             string password2 = "12345";
 
+            string email3 = "henco@gmail.com";
+            string password3 = "Password";
+
             UsersController usersController = new UsersController(_context);
 
-            bool user1 = usersController.loginTest(email1, password1);
-            bool user2 = usersController.loginTest(email2, password2);
+            bool user1 = usersController.loginUser(email1, password1);
+            bool user2 = usersController.loginUser(email2, password2);
+            bool user3 = usersController.loginUser(email3, password3);
 
-            Assert.AreEqual(false, user1);
-            Assert.AreEqual(false, user2);
-
-
-
-
+            Assert.AreEqual(true, user1);
+            Assert.AreEqual(true, user2);
+            Assert.AreEqual(false, user3);
         }
 
         [TestMethod]
@@ -64,14 +65,20 @@ namespace MSUnitTesting
             string email2 = "davidbritnor@gmail.com";
             string password2 = "12345";
 
+            string email3 = "henco@gmail.com";
+            string password3 = "Password";
+
             UsersController usersController = new UsersController(_context);
 
-            bool user1 = usersController.loginTest(email1, password1);
-            bool user2 = usersController.loginTest(email2, password2);
+            bool user1 = usersController.loginUser(email1, password1);
+            bool user2 = usersController.loginUser(email2, password2);
+            bool user3 = usersController.loginUser(email3, password3);
 
-            Assert.AreNotEqual(true, user1);
-            Assert.AreNotEqual(true, user2);
+            Assert.AreNotEqual(false, user1);
+            Assert.AreNotEqual(false, user2);
+            Assert.AreNotEqual(true, user3);
         }
+        #endregion
 
         public void Users()
         {
@@ -83,7 +90,7 @@ namespace MSUnitTesting
             users1.LastName = "Wanvig";
             users1.CellNumber = "1234456";
             users1.status = "Approved";
-           
+
             _context.Users.Add(users1);
 
             Users users2 = new Users();
@@ -95,6 +102,16 @@ namespace MSUnitTesting
             users2.status = "Approved";
 
             _context.Users.Add(users2);
+
+            Users users3 = new Users();
+            users3.email = "henco@gmail.com";
+            users3.password = "dc647eb65e6711e155375218212b3964";
+            users3.FirstName = "Henco";
+            users3.LastName = "Barkhuizen";
+            users3.CellNumber = "0823457764";
+            users3.status = "Pending";
+
+            _context.Users.Add(users3);
 
             _context.SaveChanges();
         }

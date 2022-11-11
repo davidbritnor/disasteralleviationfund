@@ -101,7 +101,7 @@ namespace APPR6312_POE.Controllers
             var admin = _context.Users.ToList();
 
 
-            if (loginTest(email, password) != false)
+            if (loginAdmin(email, password) != false)
             {
                 Users u = _context.Users.Find(email);
 
@@ -111,7 +111,7 @@ namespace APPR6312_POE.Controllers
             }
             else
             
-            if (loginTest(email, password) != true)
+            if (loginUser(email, password) != false)
             {
                 Users u = _context.Users.Find(email);
 
@@ -336,48 +336,48 @@ namespace APPR6312_POE.Controllers
             return byte2String;
         }
 
-        public bool loginAdmin(string email, string password)
-        {
-            var e_password = GetMD5(password);
+        //public bool loginAdmin(string email, string password)
+        //{
+        //    var e_password = GetMD5(password);
 
-            HttpContext.Session.SetString("password", e_password);
-            ViewBag.password = HttpContext.Session.GetString("password");
+        //    HttpContext.Session.SetString("password", e_password);
+        //    ViewBag.password = HttpContext.Session.GetString("password");
 
-            var admin = _context.Users.Where(s => s.email == email && s.password == e_password && s.status == "Admin").FirstOrDefault();
+        //    var admin = _context.Users.Where(s => s.email == email && s.password == e_password && s.status == "Admin").FirstOrDefault();
 
-            HttpContext.Session.SetString("FirstName", email);
+        //    HttpContext.Session.SetString("FirstName", email);
 
-            if(admin.status == "Admin")
-            {
+        //    if(admin.status == "Admin")
+        //    {
 
-            }
+        //    }
 
-            return true;       
-        }
+        //    return true;       
+        //}
 
-        public bool loginUser(string email, string password)
-        {
-            var e_password = GetMD5(password);
+        //public bool loginUser(string email, string password)
+        //{
+        //    var e_password = GetMD5(password);
 
-            HttpContext.Session.SetString("password", e_password);
-            ViewBag.password = HttpContext.Session.GetString("password");
+        //    HttpContext.Session.SetString("password", e_password);
+        //    ViewBag.password = HttpContext.Session.GetString("password");
 
-            var obj = _context.Users.Where(a => a.email == email && a.password == e_password && a.status == "Approved").FirstOrDefault();
+        //    var obj = _context.Users.Where(a => a.email == email && a.password == e_password && a.status == "Approved").FirstOrDefault();
 
-            if(obj.status == "Approved")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            //HttpContext.Session.SetString("Email", email);
-            //ViewBag.email = HttpContext.Session.GetString("Email");
-            //HttpContext.Session.SetString("FirstName", obj.FirstName);
-            //HttpContext.Session.SetString("LastName", obj.LastName);
+        //    if(obj.status == "Approved")
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //    //HttpContext.Session.SetString("Email", email);
+        //    //ViewBag.email = HttpContext.Session.GetString("Email");
+        //    //HttpContext.Session.SetString("FirstName", obj.FirstName);
+        //    //HttpContext.Session.SetString("LastName", obj.LastName);
            
-        }
+        //}
 
         public void setSessions(Users user)
         {
@@ -389,7 +389,7 @@ namespace APPR6312_POE.Controllers
 
         }
 
-        public bool loginTest(string email, string password)
+        public bool loginAdmin(string email, string password)
         {
             var e_password = GetMD5(password);
 
@@ -403,12 +403,23 @@ namespace APPR6312_POE.Controllers
 
                 return true;
             }
-            else if (obj.status == "Approved")
+            else
             {
-              
                 return false;
             }
-            else
+        }
+
+        public bool loginUser(string email, string password)
+        {
+            var e_password = GetMD5(password);
+
+            var obj = _context.Users.Where(a => a.email == email && a.password == e_password).FirstOrDefault();
+
+            if(obj.status == "Approved")
+            {
+                return true;
+            }
+            else 
             {
                 return false;
             }
