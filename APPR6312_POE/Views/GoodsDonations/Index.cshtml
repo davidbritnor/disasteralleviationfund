@@ -90,14 +90,14 @@
                 </td>
                 <td>
                     <center>
-                       @* @foreach(var d in disas)
+                        @foreach(var d in disas)
                         {
                             @if(item.category.Equals(d.category))
                             {
                                 numitems= item.numItems - d.numItems;
                                 break;
                             }
-                        }  *@
+                        }  
                         <label>
                             @numitems
                         </label>

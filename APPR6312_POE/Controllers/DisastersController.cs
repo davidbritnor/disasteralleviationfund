@@ -22,7 +22,7 @@ namespace APPR6312_POE.Controllers
         // GET: Disasters
         public async Task<IActionResult> Index()
         {
-            
+
 
             var sum = _context.Disasters.Sum(x => x.allocatedMoney);
             HttpContext.Session.SetString("Sum", sum.ToString());
@@ -31,7 +31,7 @@ namespace APPR6312_POE.Controllers
             ViewBag.Sum = HttpContext.Session.GetString("Sum");
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
-            return _context.Disasters != null ? 
+            return _context.Disasters != null ?
                           View(await _context.Disasters.ToListAsync()) :
                           Problem("Entity set 'User_Context.Disasters'  is null.");
         }
@@ -57,6 +57,36 @@ namespace APPR6312_POE.Controllers
             return View(disasters);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Public()
+        {
+            var itemCount = _context.GoodsDonations.Sum(x => x.numItems);
+
+            // Get total of allocated money to disasters
+            var allo = _context.Disasters.Sum(x => x.allocatedMoney);
+
+            // Get total of monetary donations
+            var Monetarysum = _context.MonetaryDonations.Sum(x => x.amount);
+
+            // Get total of purchased goods
+            var purchaseTotal = _context.PurchasedGoods.Sum(x => x.price);
+            // Get remaining money left after subtracting allocated money
+            var totalRemaining = Monetarysum - allo - purchaseTotal;
+
+            HttpContext.Session.SetString("MonetarySum", totalRemaining.ToString());
+            HttpContext.Session.SetString("TotalMon", Monetarysum.ToString());
+            HttpContext.Session.SetString("TotalGoods", itemCount.ToString());
+
+
+            ViewBag.MonetaryTotal = HttpContext.Session.GetString("TotalMon");
+            ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum");
+            ViewBag.TotalGoods = HttpContext.Session.GetString("TotalGoods");
+
+            var disasters = _context.Disasters.ToList();
+
+            return View(disasters);
+        }
+
         // GET: Disasters/Create
         public IActionResult Purchase()
         {
@@ -75,9 +105,9 @@ namespace APPR6312_POE.Controllers
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
 
-            
 
-            
+
+
 
             if (ModelState.IsValid)
             {
@@ -107,7 +137,7 @@ namespace APPR6312_POE.Controllers
             ViewBag.name = HttpContext.Session.GetString("FirstName");
             ViewBag.surname = HttpContext.Session.GetString("LastName");
 
-           
+
 
             if (ModelState.IsValid)
             {
@@ -123,7 +153,7 @@ namespace APPR6312_POE.Controllers
         // GET: Disasters/Edit/5
         public async Task<IActionResult> AlloGoods(int? id)
         {
-            
+
             if (id == null || _context.Disasters == null)
             {
                 return NotFound();
@@ -194,6 +224,18 @@ namespace APPR6312_POE.Controllers
             return View(disasters);
         }
 
+        public bool Allocate(decimal remaining, decimal allocate)
+        {
+            if(allocate > remaining)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         // POST: Disasters/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -203,10 +245,6 @@ namespace APPR6312_POE.Controllers
         {
             GoodsDonations gd = new GoodsDonations();
             Disasters d = new Disasters();
-
-            //var amount = _context.Disasters.Where(x => x.category == d.category).FirstOrDefault();
-
-            //var totalleft = amount.numItems - d.numItems;
 
             // Get total of allocated money to disasters
             var allo = _context.Disasters.Sum(x => x.allocatedMoney);
@@ -219,6 +257,7 @@ namespace APPR6312_POE.Controllers
             // Get remaining money left after subtracting allocated money
             var totalRemaining = Monetarysum - allo - purchaseTotal;
 
+            
 
             if (id != disasters.disasterID)
             {
@@ -229,13 +268,15 @@ namespace APPR6312_POE.Controllers
             {
                 try
                 {
-                    if(disasters.allocatedMoney < totalRemaining)
-                    { 
-                    _context.Update(disasters);
-                    await _context.SaveChangesAsync();
+                    if (disasters.allocatedMoney < totalRemaining)
+                    {
+                        Allocate(totalRemaining, disasters.allocatedMoney);
+                        _context.Update(disasters);
+                        await _context.SaveChangesAsync();
                     }
                     else if (disasters.allocatedMoney > totalRemaining)
                     {
+                        Allocate(totalRemaining, disasters.allocatedMoney);
                         ViewBag.Error = "Insufficent funds available";
                     }
                 }
@@ -287,14 +328,21 @@ namespace APPR6312_POE.Controllers
             {
                 _context.Disasters.Remove(disasters);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DisastersExists(int id)
         {
-          return (_context.Disasters?.Any(e => e.disasterID == id)).GetValueOrDefault();
+            return (_context.Disasters?.Any(e => e.disasterID == id)).GetValueOrDefault();
+        }
+
+        public Inventory checkBalance(String category)
+        {
+            var check = _context.Inventory.Where(x => x.Icategory == category).FirstOrDefault();
+
+            return check;
         }
     }
 }

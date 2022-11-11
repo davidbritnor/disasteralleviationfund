@@ -1,49 +1,60 @@
 ﻿@model IEnumerable<APPR6312_POE.Models.Disasters>
-
 @{
-    ViewData["Title"] = "Index";
-
-
+    ViewData["Title"] = "Public";
 }
-<style>
-    table {
-    }
-
-    th {
-        color: white;
-        background: rgba( 23, 3, 43, 0.45 ) !important;
-        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-        backdrop-filter: blur( 4px );
-        -webkit-backdrop-filter: blur( 4px );
-        border-radius: 10px;
-        border: 1px solid rgba( 255, 255, 255, 0.18 );
-    }
-
-    td {
-        color: white;
-        background: rgba( 23, 3, 43, 0.45 );
-        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-        backdrop-filter: blur( 4px );
-        -webkit-backdrop-filter: blur( 4px );
-        border-radius: 10px;
-        border: 1px solid rgba( 255, 255, 255, 0.18 );
-    }
-
-
-
-    h1 {
-        color: white;
-    }
-</style>
+<br />
 <center>
+    <h2> Total Amounts Received</h2>
     <br />
-    <h1>Disasters</h1>
-    <h2> Total Money Allocated: R @ViewBag.Sum </h2>
-    <p float:right>
-        <form asp-action="Create">
-            <button type="submit" asp-action="Create" value="" class="btn btn-primary">Submit a disaster</button>
-        </form>
-    </p>
+    <div class="card border-secondary mb-3" style="max-width: 20rem; max-height: 20rem; margin-top: 0%; margin-right: 35%">
+        <div class="card-header">Total Amount of Money Donated:</div>
+        <div class="card-body">
+            <h4 class="card-title">R @ViewBag.MonetaryTotal</h4>
+        </div>
+    </div>
+    <div class="card border-secondary mb-3" style="max-width: 20rem; max-height: 20rem; margin-left: 40%; margin-top: -14.1%;">
+        <div class="card-header">Total number of goods recieved:</div>
+        <div class="card-body">
+            <h4 class="card-title">@ViewBag.TotalGoods</h4>
+        </div>
+    </div>
+
+    <br />
+    <h2>Current active disasters with allocated money and goods</h2>
+    <br />
+
+    @*<table class="table table-hover">
+        <thead>
+        <tr class="table-active">
+        <th>
+        <center>
+        Total Amount of Money Donated
+        </center>
+        </th>
+        <th>
+        <center>
+        Total Number of Goods Received
+        </center>
+        </th>
+        </tr>
+        <tr>
+        <td>
+        <center>
+        @ViewBag.MonetaryTotal
+        </center>
+        </td>
+        <td>
+        <center>
+        @ViewBag.TotalGoods
+        </center>
+        </td>
+        </tr>
+
+        </tbody>
+        </table>*@
+
+
+
 </center>
 <table class="table table-hover">
     <thead>
@@ -83,16 +94,7 @@
                     Allocated Goods
                 </center>
             </th>
-            <th>
-                <center>
-                    View Details
-                </center>
-            </th>
-            <th>
-                <center>
-                    Allocate Available Resources
-                </center>
-            </th>
+
 
         </tr>
     </thead>
@@ -150,17 +152,8 @@
                         @Html.DisplayFor(modelItem => item.category)
                     </center>
                 </td>
-                <td>
-                    <center>
-                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.disasterID">Details </a>
-                    </center>
-                </td>
-                <td>
-                    <center>
-                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.disasterID">Allocate Resources</a>
-                    </center>
-                </td>
             </tr>
         }
     </tbody>
 </table>
+

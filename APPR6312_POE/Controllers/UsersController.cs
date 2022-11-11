@@ -54,10 +54,54 @@ namespace APPR6312_POE.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> Public()
+        {
+            var itemCount = _context.GoodsDonations.Sum(x => x.numItems);
+
+            // Get total of allocated money to disasters
+            var allo = _context.Disasters.Sum(x => x.allocatedMoney);
+
+            // Get total of monetary donations
+            var Monetarysum = _context.MonetaryDonations.Sum(x => x.amount);
+
+            // Get total of purchased goods
+            var purchaseTotal = _context.PurchasedGoods.Sum(x => x.price);
+            // Get remaining money left after subtracting allocated money
+            var totalRemaining = Monetarysum - allo - purchaseTotal;
+
+            HttpContext.Session.SetString("MonetarySum", totalRemaining.ToString());
+            HttpContext.Session.SetString("TotalMon", Monetarysum.ToString());
+            HttpContext.Session.SetString("TotalGoods", itemCount.ToString());
+
+
+            ViewBag.MonetaryTotal = HttpContext.Session.GetString("TotalMon");
+            ViewBag.MonetarySum = HttpContext.Session.GetString("MonetarySum");
+            ViewBag.TotalGoods = HttpContext.Session.GetString("TotalGoods");
+
+
+            return View();
+        }
         public IActionResult Test()
         {
             return View();
         }
+
+
+        public bool validEmail(string email)
+        {
+            Users u = _context.Users.Find(email);
+
+            if(u == null)
+            {
+                return false;
+            }
+            else 
+            {
+                return true;
+            }
+        }
+        
 
 
         [HttpPost]
@@ -69,25 +113,29 @@ namespace APPR6312_POE.Controllers
             HttpContext.Session.SetString("password", e_password);
             ViewBag.password = HttpContext.Session.GetString("password");
 
-            var admin = _context.Users.Where(s => s.email == email && s.password == e_password && s.status == "Admin").FirstOrDefault();
-            var obj = _context.Users.Where(a => a.email == email && a.password == e_password && a.status == "Approved").FirstOrDefault();
+            var admin = _context.Users.ToList();
 
-            if (admin != null)
+
+            if (loginAdmin(email, password) != false)
             {
-                HttpContext.Session.SetString("FirstName", admin.FirstName);
-                HttpContext.Session.SetString("LastName", admin.LastName);
+                validEmail(email);
+                Users u = _context.Users.Find(email);
+
+                setSessions(u);
+
                 return RedirectToAction("Admin");
             }
             else
             
-            if (obj != null)
+            if (loginUser(email, password) != false)
             {
-                
+                validEmail(email);
+                Users u = _context.Users.Find(email);
+
+                setSessions(u);
+
                 //ViewBag.Sum = HttpContext.Session.GetString("Sum");
-                HttpContext.Session.SetString("Email", email);
-                ViewBag.email = HttpContext.Session.GetString("Email");
-                HttpContext.Session.SetString("FirstName", obj.FirstName);
-                HttpContext.Session.SetString("LastName", obj.LastName);
+
                 return RedirectToAction("Index" , "Home");
             }
             else
@@ -168,6 +216,36 @@ namespace APPR6312_POE.Controllers
             return View();
         }
 
+        public bool testRegister(Users user)
+        {            
+
+            if(String.IsNullOrWhiteSpace(user.email) || String.IsNullOrWhiteSpace(user.password) ||
+                String.IsNullOrWhiteSpace(user.FirstName) || String.IsNullOrWhiteSpace(user.LastName) || String.IsNullOrWhiteSpace(user.CellNumber))
+            {
+
+                ViewBag.Error = "Please fill in all required fields";
+                return false;
+
+                
+            }
+            else
+            {
+                Users u = new Users();
+
+                u.email = user.email;
+                u.password = GetMD5(user.password);
+                u.FirstName = user.FirstName;
+                u.LastName = user.LastName;
+                u.CellNumber = user.CellNumber;
+                u.status = user.status;
+
+                return true;
+            }
+
+            
+           
+        }
+
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -177,7 +255,7 @@ namespace APPR6312_POE.Controllers
         {
             if (ModelState.IsValid)
             {
-                users.password = GetMD5(users.password);
+                testRegister(users);
 
                 _context.Add(users);
                 await _context.SaveChangesAsync();
@@ -303,6 +381,95 @@ namespace APPR6312_POE.Controllers
 
             }
             return byte2String;
+        }
+
+        //public bool loginAdmin(string email, string password)
+        //{
+        //    var e_password = GetMD5(password);
+
+        //    HttpContext.Session.SetString("password", e_password);
+        //    ViewBag.password = HttpContext.Session.GetString("password");
+
+        //    var admin = _context.Users.Where(s => s.email == email && s.password == e_password && s.status == "Admin").FirstOrDefault();
+
+        //    HttpContext.Session.SetString("FirstName", email);
+
+        //    if(admin.status == "Admin")
+        //    {
+
+        //    }
+
+        //    return true;       
+        //}
+
+        //public bool loginUser(string email, string password)
+        //{
+        //    var e_password = GetMD5(password);
+
+        //    HttpContext.Session.SetString("password", e_password);
+        //    ViewBag.password = HttpContext.Session.GetString("password");
+
+        //    var obj = _context.Users.Where(a => a.email == email && a.password == e_password && a.status == "Approved").FirstOrDefault();
+
+        //    if(obj.status == "Approved")
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //    //HttpContext.Session.SetString("Email", email);
+        //    //ViewBag.email = HttpContext.Session.GetString("Email");
+        //    //HttpContext.Session.SetString("FirstName", obj.FirstName);
+        //    //HttpContext.Session.SetString("LastName", obj.LastName);
+           
+        //}
+
+        public void setSessions(Users user)
+        {
+            HttpContext.Session.SetString("Email", user.email);
+            HttpContext.Session.SetString("FirstName", user.FirstName);
+            HttpContext.Session.SetString("LastName", user.LastName);
+            HttpContext.Session.SetString("CellNumber", user.CellNumber);
+            HttpContext.Session.SetString("Status", user.status);
+
+        }
+
+        public bool loginAdmin(string email, string password)
+        {
+            var e_password = GetMD5(password);
+
+            //HttpContext.Session.SetString("password", e_password);
+            //ViewBag.password = HttpContext.Session.GetString("password");
+
+            var obj = _context.Users.Where(a => a.email == email && a.password == e_password).FirstOrDefault();
+
+            if(obj.status == "Admin")
+            {         
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool loginUser(string email, string password)
+        {
+            var e_password = GetMD5(password);
+
+            var obj = _context.Users.Where(a => a.email == email && a.password == e_password).FirstOrDefault();
+
+            if(obj.status == "Approved")
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
     }
 }
