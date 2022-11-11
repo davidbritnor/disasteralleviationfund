@@ -12,7 +12,6 @@ namespace MSUnitTesting
     {
         private readonly User_Context _context;
 
-
         public UnitTest1()
         {
             var serviceProvider = new ServiceCollection()
