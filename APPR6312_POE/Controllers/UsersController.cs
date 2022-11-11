@@ -87,6 +87,20 @@ namespace APPR6312_POE.Controllers
             return View();
         }
 
+
+        public bool validEmail(string email)
+        {
+            Users u = _context.Users.Find(email);
+
+            if(u == null)
+            {
+                return false;
+            }
+            else 
+            {
+                return true;
+            }
+        }
         
 
 
@@ -104,6 +118,7 @@ namespace APPR6312_POE.Controllers
 
             if (loginAdmin(email, password) != false)
             {
+                validEmail(email);
                 Users u = _context.Users.Find(email);
 
                 setSessions(u);
@@ -114,6 +129,7 @@ namespace APPR6312_POE.Controllers
             
             if (loginUser(email, password) != false)
             {
+                validEmail(email);
                 Users u = _context.Users.Find(email);
 
                 setSessions(u);
@@ -201,10 +217,18 @@ namespace APPR6312_POE.Controllers
         }
 
         public bool testRegister(Users user)
-        {
-            bool test = true;
+        {            
 
-            while(test == true)
+            if(String.IsNullOrWhiteSpace(user.email) || String.IsNullOrWhiteSpace(user.password) ||
+                String.IsNullOrWhiteSpace(user.FirstName) || String.IsNullOrWhiteSpace(user.LastName) || String.IsNullOrWhiteSpace(user.CellNumber))
+            {
+
+                ViewBag.Error = "Please fill in all required fields";
+                return false;
+
+                
+            }
+            else
             {
                 Users u = new Users();
 
@@ -215,9 +239,10 @@ namespace APPR6312_POE.Controllers
                 u.CellNumber = user.CellNumber;
                 u.status = user.status;
 
-                test = false;
+                return true;
             }
-            return false;
+
+            
            
         }
 

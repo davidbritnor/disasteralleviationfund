@@ -80,6 +80,7 @@ namespace MSUnitTesting
         }
         #endregion
 
+        #region Unit Test for register
         [TestMethod]
         public void Register_Pass()
         {
@@ -89,21 +90,75 @@ namespace MSUnitTesting
             user.password = "Password";
             user.FirstName = "Oliver";
             user.LastName = "Honiball";
-            user.CellNumber = "1234566778";
+            user.CellNumber = "0725175563";
+            user.status = "Pending";
+
+            UsersController users = new UsersController(_context);
+
+            Assert.AreEqual(true, users.testRegister(user));
+        }
+
+        [TestMethod]
+        public void Register_Fail()
+        {
+            Users user = new Users();
+
+            user.email = "oliver@gmail.com";
+            user.password = "Password";
+            user.FirstName = "Oliver";
+            user.LastName = "Honiball";
+            user.CellNumber = "";
             user.status = "Pending";
 
             UsersController users = new UsersController(_context);
 
             Assert.AreEqual(false, users.testRegister(user));
         }
+        #endregion
 
-        public void Totals()
+        #region Unit test for allocating and purchasing goods
+        [TestMethod]
+        public void Allocate_Pass()
         {
-            MonetaryDonations mon = new MonetaryDonations();
+            DisastersController mon = new DisastersController(_context);
 
+            decimal remaining = 10000;
+            decimal expected = 8000;
 
+            Assert.AreEqual(true, mon.Allocate(remaining, expected));
         }
 
+        [TestMethod]
+        public void Allocate_Fail()
+        {
+            DisastersController mon = new DisastersController(_context);
+
+            decimal remaining = 10000;
+            decimal expected = 11000;
+
+            Assert.AreEqual(false, mon.Allocate(remaining, expected));
+        }
+        #endregion
+
+        #region Unit Test for valid email address
+        [TestMethod]
+        public void ValidEmail_Pass()
+        {
+            string email = "reece@gmail.com";
+            UsersController users = new UsersController(_context);
+
+            Assert.AreEqual(true, users.validEmail(email));
+        }
+
+        [TestMethod]
+        public void ValidEmail_Fail()
+        {
+            string email = "reecewanvig@gmail.com";
+            UsersController users = new UsersController(_context);
+
+            Assert.AreEqual(false, users.validEmail(email));
+        }
+        #endregion
 
         #region Populating User in database
         public void Users()
